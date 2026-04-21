@@ -16,11 +16,8 @@ msgstr "FakeHTTP"
 msgid "FakeHTTP can disguise all your TCP connections as HTTP and other protocols to evade Deep Packet Inspection (DPI). It is a networking tool based on nftables / iptables and Netfilter Queue (NFQUEUE)."
 msgstr "FakeHTTP 可以将你的所有 TCP 连接伪装为 HTTP 等协议以规避深度包检测 (DPI)，是一个基于 nftables / iptables 与 Netfilter Queue (NFQUEUE) 的网络工具。"
 
-msgid "Usage instructions: "
-msgstr "使用说明："
-
-msgid "FakeHTTP Wiki"
-msgstr "FakeHTTP Wiki"
+msgid "Usage guide"
+msgstr "使用说明"
 
 msgid "Service"
 msgstr "服务"

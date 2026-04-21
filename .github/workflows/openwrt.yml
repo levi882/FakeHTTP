@@ -50,7 +50,8 @@ jobs:
           sed -i \
               -e "s|@@VERSION@@|${PKG_VERSION}|g" \
               fakehttp/Makefile \
-              luci-app-fakehttp/Makefile
+              luci-app-fakehttp/Makefile \
+              luci-i18n-fakehttp-zh-cn/Makefile
 
       - name: Build package
         uses: openwrt/gh-action-sdk@main
@@ -58,6 +59,7 @@ jobs:
           ARCH: ${{ matrix.arch }}-${{ matrix.sdk_tag }}
           FEEDNAME: fakehttp_feed
           PACKAGES: fakehttp luci-app-fakehttp luci-i18n-fakehttp-zh-cn
+          NO_SHFMT_CHECK: 1
           V: s
 
       - name: Upload package

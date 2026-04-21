@@ -15,7 +15,7 @@ define Package/fakehttp
   CATEGORY:=Network
   TITLE:=Obfuscate TCP connections as HTTP via NFQUEUE
   URL:=https://github.com/MikeWang000000/FakeHTTP
-  DEPENDS:=+libnetfilter-queue +libnfnetlink +libmnl +kmod-nfnetlink-queue +nftables
+  DEPENDS:=+libnetfilter-queue +libnfnetlink +libmnl +kmod-nfnetlink-queue +kmod-nft-queue +nftables
 endef
 
 define Package/fakehttp/description

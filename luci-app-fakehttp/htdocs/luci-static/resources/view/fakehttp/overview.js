@@ -137,10 +137,6 @@ return view.extend({
 		o = s.option(form.Flag, 'no_hop_estimation', _('Disable hop count estimation'));
 		o.default = '0';
 
-		o = s.option(form.Flag, 'use_iptables', _('Use iptables instead of nft'));
-		o.default = '0';
-		o.description = _('Maps to -z. Requires iptables and ip6tables tooling to be installed.');
-
 		return m.render().then(function(node) {
 			var statusNode = node.querySelector('#fakehttp_status');
 

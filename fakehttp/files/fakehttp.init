@@ -58,7 +58,7 @@ append_binary_file() {
 
 start_service() {
 	local enabled alliface inbound outbound ipv4 ipv6
-	local silent skip_firewall no_hop_estimation use_iptables
+	local silent skip_firewall no_hop_estimation
 	local queue_number repeat ttl dynamic_pct
 	local log_file fwmark fwmask
 
@@ -75,7 +75,6 @@ start_service() {
 	config_get_bool silent "$SECTION" silent 0
 	config_get_bool skip_firewall "$SECTION" skip_firewall 0
 	config_get_bool no_hop_estimation "$SECTION" no_hop_estimation 0
-	config_get_bool use_iptables "$SECTION" use_iptables 0
 
 	config_get queue_number "$SECTION" queue_number 512
 	config_get repeat "$SECTION" repeat 2
@@ -136,7 +135,6 @@ start_service() {
 	[ "$silent" -eq 1 ] && procd_append_param command -s
 	[ "$skip_firewall" -eq 1 ] && procd_append_param command -f
 	[ "$no_hop_estimation" -eq 1 ] && procd_append_param command -g
-	[ "$use_iptables" -eq 1 ] && procd_append_param command -z
 
 	[ -n "$fwmark" ] && procd_append_param command -m "$fwmark"
 	[ -n "$fwmask" ] && procd_append_param command -x "$fwmask"

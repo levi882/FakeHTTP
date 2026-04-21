@@ -17,6 +17,10 @@ on:
         type: string
         required: false
 
+concurrency:
+  group: openwrt-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   Build:
     name: ${{ matrix.arch }} @ ${{ matrix.release }}
@@ -43,18 +47,14 @@ jobs:
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Prepare OpenWrt package metadata
+      - name: Generate package version include
         env:
           PKG_VERSION: ${{ steps.ver.outputs.version }}
         run: |
-          sed -i \
-              -e "s|@@VERSION@@|${PKG_VERSION}|g" \
-              fakehttp/Makefile \
-              luci-app-fakehttp/Makefile \
-              luci-i18n-fakehttp-zh-cn/Makefile
+          printf 'FAKEHTTP_PKG_VERSION:=%s\n' "${PKG_VERSION}" > version.mk
 
       - name: Build package
-        uses: openwrt/gh-action-sdk@main
+        uses: openwrt/gh-action-sdk@82c46b45db95e9e065293cc03724cca499dd2ddb
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.sdk_tag }}
           FEEDNAME: fakehttp_feed
@@ -62,11 +62,47 @@ jobs:
           NO_SHFMT_CHECK: 1
           V: s
 
+      - name: Prepare artifact bundle
+        env:
+          PKG_VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          mkdir -p dist
+          mapfile -t files < <(find bin/packages -type f -path "*/fakehttp_feed/*" \( -name "*fakehttp*.ipk" -o -name "*fakehttp*.apk" \) | sort)
+
+          if [ "${#files[@]}" -eq 0 ]; then
+              echo "No package artifacts found" >&2
+              exit 1
+          fi
+
+          cp -f "${files[@]}" dist/
+
+          (
+              cd dist
+              shopt -s nullglob
+              files=( *.ipk *.apk )
+
+              sha256sum "${files[@]}" > sha256sums.txt
+
+              {
+                  echo "name=fakehttp"
+                  echo "version=${PKG_VERSION}"
+                  echo "release=${{ matrix.release }}"
+                  echo "arch=${{ matrix.arch }}"
+                  echo "sdk_tag=${{ matrix.sdk_tag }}"
+                  echo "commit=${{ github.sha }}"
+                  echo "ref=${{ github.ref }}"
+                  echo "built_at=$(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S %z')"
+                  echo
+                  printf "%s\n" "${files[@]}"
+              } > manifest.txt
+          )
+
       - name: Upload package
         uses: actions/upload-artifact@v4
         with:
           name: fakehttp-openwrt-${{ matrix.release }}-${{ matrix.arch }}
           path: |
-            bin/packages/*/fakehttp_feed/*fakehttp*.ipk
-            bin/packages/*/fakehttp_feed/*fakehttp*.apk
+            dist/*
           if-no-files-found: error

@@ -50,7 +50,7 @@ msgid "Use all interfaces"
 msgstr "使用全部接口"
 
 msgid "Interfaces"
-msgstr "网络接口"
+msgstr "接口"
 
 msgid "Adds one -i argument for each interface."
 msgstr "每个接口会追加一个 -i 参数。"
@@ -83,7 +83,7 @@ msgid "Maps to -t. Valid values in FakeHTTP are 1 to 255."
 msgstr "对应 -t。FakeHTTP 允许的取值范围是 1 到 255。"
 
 msgid "Firewall mark"
-msgstr "防火墙标记"
+msgstr "防火墙标志"
 
 msgid "Maps to -m. Decimal and hexadecimal values are both accepted."
 msgstr "对应 -m。支持十进制和十六进制。"
@@ -92,7 +92,7 @@ msgid "Firewall mask"
 msgstr "防火墙掩码"
 
 msgid "Optional -x override. Leave empty to use FakeHTTP defaults."
-msgstr "可选的 -x 覆盖值。留空则使用 FakeHTTP 默认行为。"
+msgstr "可选的 -x 覆盖值。留空则使用 FakeHTTP 默认值。"
 
 msgid "Dynamic TTL percentage"
 msgstr "动态 TTL 百分比"
@@ -116,13 +116,7 @@ msgid "Maps to -f. Use this only if firewall rules are managed elsewhere."
 msgstr "对应 -f。仅在防火墙规则由其他方式管理时使用。"
 
 msgid "Disable hop count estimation"
-msgstr "禁用跳数估算"
-
-msgid "Use iptables instead of nft"
-msgstr "使用 iptables 替代 nft"
-
-msgid "Maps to -z. Requires iptables and ip6tables tooling to be installed."
-msgstr "对应 -z。需要系统已安装 iptables 和 ip6tables 工具。"
+msgstr "禁用跃点数估算"
 
 msgid "Running"
 msgstr "运行中"

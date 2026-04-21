@@ -1,7 +1,11 @@
+THIS_DIR:=$(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+FAKEHTTP_PKG_VERSION:=0.0.0
+-include $(THIS_DIR)/../version.mk
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fakehttp
-PKG_VERSION:=@@VERSION@@
+PKG_VERSION:=$(FAKEHTTP_PKG_VERSION)
 PKG_RELEASE:=1
 
 PKG_LICENSE:=GPL-3.0-only

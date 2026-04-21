@@ -45,8 +45,18 @@ return view.extend({
 	render: function() {
 		var m, s, o;
 
-		m = new form.Map('fakehttp', _('FakeHTTP'),
-			_('Configure FakeHTTP from LuCI. Save and apply changes to reload the service.'));
+		m = new form.Map('fakehttp', _('FakeHTTP'));
+		m.description = E([], [
+			E('p', _('FakeHTTP can disguise all your TCP connections as HTTP and other protocols to evade Deep Packet Inspection (DPI). It is a networking tool based on nftables / iptables and Netfilter Queue (NFQUEUE).')),
+			E('p', [
+				_('Usage instructions: '),
+				E('a', {
+					'href': 'https://github.com/MikeWang000000/FakeHTTP/wiki',
+					'target': '_blank',
+					'rel': 'noopener noreferrer'
+				}, _('FakeHTTP Wiki'))
+			])
+		]);
 
 		s = m.section(form.NamedSection, 'main', 'fakehttp', _('Service'));
 

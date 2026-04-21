@@ -7,7 +7,13 @@ msgstr ""
 msgid "FakeHTTP"
 msgstr ""
 
-msgid "Configure FakeHTTP from LuCI. Save and apply changes to reload the service."
+msgid "FakeHTTP can disguise all your TCP connections as HTTP and other protocols to evade Deep Packet Inspection (DPI). It is a networking tool based on nftables / iptables and Netfilter Queue (NFQUEUE)."
+msgstr ""
+
+msgid "Usage instructions: "
+msgstr ""
+
+msgid "FakeHTTP Wiki"
 msgstr ""
 
 msgid "Service"

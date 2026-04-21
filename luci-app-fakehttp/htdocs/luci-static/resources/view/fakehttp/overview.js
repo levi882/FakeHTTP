@@ -5,6 +5,7 @@
 'require uci';
 'require poll';
 'require dom';
+'require tools.widgets as widgets';
 
 var callServiceList = rpc.declare({
 	object: 'service',
@@ -82,9 +83,17 @@ return view.extend({
 		o = s.option(form.Flag, 'alliface', _('Use all interfaces'));
 		o.default = '0';
 
-		o = s.option(form.DynamicList, 'interface', _('Interfaces'));
-		o.placeholder = 'eth0';
+		o = s.option(widgets.DeviceSelect, 'interface', _('Interfaces'));
+		o.multiple = true;
+		o.noaliases = true;
+		o.nocreate = true;
 		o.depends('alliface', '0');
+		o.cfgvalue = function(section_id) {
+			return L.toArray(uci.get('fakehttp', section_id, 'interface'));
+		};
+		o.write = function(section_id, formvalue) {
+			return uci.set('fakehttp', section_id, 'interface', L.toArray(formvalue));
+		};
 		o.description = _('Adds one -i argument for each interface.');
 
 		o = s.option(form.Flag, 'inbound', _('Process inbound traffic'));

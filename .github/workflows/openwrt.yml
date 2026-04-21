@@ -39,7 +39,7 @@ jobs:
         run: |
           VERSION='${{ inputs.version }}'
           if [ -z "$VERSION" ]; then
-              VERSION="0.0.0-$(echo '${{ github.sha }}' | cut -c1-8)"
+              VERSION="0.0.0~$(echo '${{ github.sha }}' | cut -c1-8)"
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 

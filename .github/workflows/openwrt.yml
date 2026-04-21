@@ -24,10 +24,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release:
-          - 25.12
-        arch:
-          - x86_64
+        include:
+          - release: 25.12.2
+            sdk_tag: 25.12.2
+            arch: x86_64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,7 +55,7 @@ jobs:
       - name: Build package
         uses: openwrt/gh-action-sdk@main
         env:
-          ARCH: ${{ matrix.arch }}-${{ matrix.release }}
+          ARCH: ${{ matrix.arch }}-${{ matrix.sdk_tag }}
           FEEDNAME: fakehttp_feed
           PACKAGES: fakehttp luci-app-fakehttp luci-i18n-fakehttp-zh-cn
           V: s

@@ -49,6 +49,8 @@ jobs:
   BuildOpenWrt:
     uses: ./.github/workflows/openwrt.yml
     needs: Prepare
+    permissions:
+      contents: write
     with:
       version: ${{ needs.Prepare.outputs.package_version }}
       create_release: false

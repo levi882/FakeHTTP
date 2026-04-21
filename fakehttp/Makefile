@@ -29,7 +29,7 @@ endef
 
 define Build/Prepare
 	$(RM) -r $(PKG_BUILD_DIR)
-	$(MKDIR) $(PKG_BUILD_DIR)
+	$(INSTALL_DIR) $(PKG_BUILD_DIR)
 	$(CP) $(CURDIR)/../src $(PKG_BUILD_DIR)/
 	$(CP) $(CURDIR)/../include $(PKG_BUILD_DIR)/
 	$(CP) $(CURDIR)/../Makefile $(PKG_BUILD_DIR)/

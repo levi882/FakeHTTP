@@ -10,16 +10,57 @@ on:
         required: true
 
 jobs:
-  Build:
+  Prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      package_version: ${{ steps.meta.outputs.package_version }}
+      tag_version: ${{ steps.meta.outputs.tag_version }}
+      release_title: ${{ steps.meta.outputs.release_title }}
+    steps:
+      - name: Resolve release metadata
+        id: meta
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          set -euo pipefail
+
+          PACKAGE_VERSION="${INPUT_VERSION#v}"
+          if [ -z "$PACKAGE_VERSION" ]; then
+              echo "Version input must not be empty" >&2
+              exit 1
+          fi
+
+          if [ "$INPUT_VERSION" = "$PACKAGE_VERSION" ]; then
+              TAG_VERSION="v$PACKAGE_VERSION"
+          else
+              TAG_VERSION="$INPUT_VERSION"
+          fi
+
+          echo "package_version=$PACKAGE_VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag_version=$TAG_VERSION" >> "$GITHUB_OUTPUT"
+          echo "release_title=$TAG_VERSION" >> "$GITHUB_OUTPUT"
+
+  BuildLinux:
     uses: ./.github/workflows/ci.yml
+    needs: Prepare
     with:
-      version: ${{ github.event.inputs.version }}
+      version: ${{ needs.Prepare.outputs.package_version }}
+
+  BuildOpenWrt:
+    uses: ./.github/workflows/openwrt.yml
+    needs: Prepare
+    with:
+      version: ${{ needs.Prepare.outputs.package_version }}
+      create_release: false
 
   Release:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    needs: Build
+    needs:
+      - Prepare
+      - BuildLinux
+      - BuildOpenWrt
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,20 +72,69 @@ jobs:
           path: ${{ github.workspace }}/artifacts
       - name: Reorganize files
         run: |
-          mkdir release
+          set -euo pipefail
+
+          mkdir -p release
           cd artifacts
-          chmod a+x */fakehttp*
-          for triplet in *; do
+          shopt -s nullglob
+
+          linux_found=0
+          for triplet in fakehttp-linux-*; do
+            [ -d "$triplet" ] || continue
+            linux_found=1
+            chmod a+x "$triplet"/fakehttp* 2>/dev/null || true
             tar czvf "../release/$triplet.tar.gz" "$triplet"
           done
+
+          openwrt_found=0
+          for file in fakehttp-openwrt-*/*; do
+            [ -f "$file" ] || continue
+            openwrt_found=1
+
+            base="$(basename "$file")"
+            target="../release/$base"
+
+            if [ -e "$target" ]; then
+              target="../release/$(basename "$(dirname "$file")")-$base"
+            fi
+
+            cp -f "$file" "$target"
+          done
+
+          if [ "$linux_found" -eq 0 ] && [ "$openwrt_found" -eq 0 ]; then
+            echo "No release assets found" >&2
+            exit 1
+          fi
+
+          ls -l ../release
+
       - name: Make a tag
+        env:
+          TAG_VERSION: ${{ needs.Prepare.outputs.tag_version }}
         run: |
+          set -euo pipefail
+
           git config user.name 'GitHub Actions'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git tag -a '${{ github.event.inputs.version }}' -m '${{ github.event.inputs.version }}'
-          git push origin '${{ github.event.inputs.version }}'
-      - name: Make a release
+
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG_VERSION}" >/dev/null 2>&1; then
+            echo "Tag ${TAG_VERSION} already exists"
+          else
+            git tag -a "${TAG_VERSION}" -m "${TAG_VERSION}"
+            git push origin "${TAG_VERSION}"
+          fi
+
+      - name: Make or update release
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          TAG_VERSION: ${{ needs.Prepare.outputs.tag_version }}
+          RELEASE_TITLE: ${{ needs.Prepare.outputs.release_title }}
         run: |
-          gh release create --title 'v${{ github.event.inputs.version }}' --generate-notes --verify-tag '${{ github.event.inputs.version }}' release/*.tar.gz
+          set -euo pipefail
+
+          if gh release view "$TAG_VERSION" >/dev/null 2>&1; then
+            gh release upload "$TAG_VERSION" release/* --clobber
+            gh release edit "$TAG_VERSION" --title "$RELEASE_TITLE"
+          else
+            gh release create "$TAG_VERSION" release/* --title "$RELEASE_TITLE" --generate-notes --verify-tag
+          fi

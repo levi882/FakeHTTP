@@ -1,0 +1,131 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: luci-app-fakehttp\n"
+"PO-Revision-Date: 2026-04-21 00:00+0000\n"
+"Last-Translator: OpenAI Codex\n"
+"Language-Team: Chinese (Simplified Han script)\n"
+"Language: zh_Hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "FakeHTTP"
+msgstr "FakeHTTP"
+
+msgid "Configure FakeHTTP from LuCI. Save and apply changes to reload the service."
+msgstr "在 LuCI 中配置 FakeHTTP。保存并应用后会重新加载服务。"
+
+msgid "Service"
+msgstr "服务"
+
+msgid "Current status"
+msgstr "当前状态"
+
+msgid "Collecting data..."
+msgstr "正在获取状态..."
+
+msgid "Enable service"
+msgstr "启用服务"
+
+msgid "HTTP hostnames"
+msgstr "HTTP 主机名"
+
+msgid "Adds one -h argument for each hostname."
+msgstr "每个主机名会追加一个 -h 参数。"
+
+msgid "HTTPS hostnames"
+msgstr "HTTPS 主机名"
+
+msgid "Adds one -e argument for each hostname."
+msgstr "每个主机名会追加一个 -e 参数。"
+
+msgid "Binary payload files"
+msgstr "二进制负载文件"
+
+msgid "Adds one -b argument for each file path."
+msgstr "每个文件路径会追加一个 -b 参数。"
+
+msgid "Use all interfaces"
+msgstr "使用全部接口"
+
+msgid "Interfaces"
+msgstr "网络接口"
+
+msgid "Adds one -i argument for each interface."
+msgstr "每个接口会追加一个 -i 参数。"
+
+msgid "Process inbound traffic"
+msgstr "处理入站流量"
+
+msgid "Process outbound traffic"
+msgstr "处理出站流量"
+
+msgid "Process IPv4 traffic"
+msgstr "处理 IPv4 流量"
+
+msgid "Process IPv6 traffic"
+msgstr "处理 IPv6 流量"
+
+msgid "NFQUEUE number"
+msgstr "NFQUEUE 编号"
+
+msgid "Duplicate generated packets"
+msgstr "生成数据包重复次数"
+
+msgid "Maps to -r. Valid values in FakeHTTP are 1 to 10."
+msgstr "对应 -r。FakeHTTP 允许的取值范围是 1 到 10。"
+
+msgid "Generated packet TTL"
+msgstr "生成数据包 TTL"
+
+msgid "Maps to -t. Valid values in FakeHTTP are 1 to 255."
+msgstr "对应 -t。FakeHTTP 允许的取值范围是 1 到 255。"
+
+msgid "Firewall mark"
+msgstr "防火墙标记"
+
+msgid "Maps to -m. Decimal and hexadecimal values are both accepted."
+msgstr "对应 -m。支持十进制和十六进制。"
+
+msgid "Firewall mask"
+msgstr "防火墙掩码"
+
+msgid "Optional -x override. Leave empty to use FakeHTTP defaults."
+msgstr "可选的 -x 覆盖值。留空则使用 FakeHTTP 默认行为。"
+
+msgid "Dynamic TTL percentage"
+msgstr "动态 TTL 百分比"
+
+msgid "Maps to -y. Set 0 to disable."
+msgstr "对应 -y。设置为 0 表示禁用。"
+
+msgid "Log file"
+msgstr "日志文件"
+
+msgid "Optional -w path. Leave empty to log through procd."
+msgstr "可选的 -w 路径。留空则通过 procd 记录日志。"
+
+msgid "Silent mode"
+msgstr "静默模式"
+
+msgid "Skip firewall rule management"
+msgstr "跳过防火墙规则管理"
+
+msgid "Maps to -f. Use this only if firewall rules are managed elsewhere."
+msgstr "对应 -f。仅在防火墙规则由其他方式管理时使用。"
+
+msgid "Disable hop count estimation"
+msgstr "禁用跳数估算"
+
+msgid "Use iptables instead of nft"
+msgstr "使用 iptables 替代 nft"
+
+msgid "Maps to -z. Requires iptables and ip6tables tooling to be installed."
+msgstr "对应 -z。需要系统已安装 iptables 和 ip6tables 工具。"
+
+msgid "Running"
+msgstr "运行中"
+
+msgid "Not running"
+msgstr "未运行"

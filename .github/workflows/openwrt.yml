@@ -1,0 +1,65 @@
+name: OpenWrt
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version Number
+        type: string
+        required: false
+  workflow_call:
+    inputs:
+      version:
+        description: Version Number
+        type: string
+        required: false
+
+jobs:
+  Build:
+    name: ${{ matrix.arch }} @ ${{ matrix.release }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        release:
+          - 25.12
+        arch:
+          - x86_64
+    steps:
+      - name: Resolve version
+        id: ver
+        run: |
+          VERSION='${{ inputs.version }}'
+          if [ -z "$VERSION" ]; then
+              VERSION="0.0.0-$(echo '${{ github.sha }}' | cut -c1-8)"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare OpenWrt package metadata
+        env:
+          PKG_VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          sed -i \
+              -e "s|@@VERSION@@|${PKG_VERSION}|g" \
+              fakehttp/Makefile \
+              luci-app-fakehttp/Makefile
+
+      - name: Build package
+        uses: openwrt/gh-action-sdk@main
+        env:
+          ARCH: ${{ matrix.arch }}-${{ matrix.release }}
+          FEEDNAME: fakehttp_feed
+          PACKAGES: fakehttp luci-app-fakehttp luci-i18n-fakehttp-zh-cn
+          V: s
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: fakehttp-openwrt-${{ matrix.release }}-${{ matrix.arch }}
+          path: |
+            bin/packages/*/fakehttp_feed/*fakehttp*.ipk
+            bin/packages/*/fakehttp_feed/*fakehttp*.apk
+          if-no-files-found: error

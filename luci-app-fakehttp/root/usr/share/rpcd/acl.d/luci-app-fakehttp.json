@@ -1,0 +1,14 @@
+{
+	"luci-app-fakehttp": {
+		"description": "Grant access to FakeHTTP configuration",
+		"read": {
+			"ubus": {
+				"service": [ "list" ]
+			},
+			"uci": [ "fakehttp" ]
+		},
+		"write": {
+			"uci": [ "fakehttp" ]
+		}
+	}
+}

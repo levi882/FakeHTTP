@@ -1,0 +1,166 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: luci-app-fakehttp\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:35
+#: root/usr/share/luci/menu.d/luci-app-fakehttp.json:3
+msgid "FakeHTTP"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:49
+msgid "Configure FakeHTTP from LuCI. Save and apply changes to reload the service."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:51
+msgid "Service"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:53
+msgid "Current status"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:56
+msgid "Collecting data..."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:59
+msgid "Enable service"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:62
+msgid "HTTP hostnames"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:64
+msgid "Adds one -h argument for each hostname."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:66
+msgid "HTTPS hostnames"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:68
+msgid "Adds one -e argument for each hostname."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:70
+msgid "Binary payload files"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:72
+msgid "Adds one -b argument for each file path."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:74
+msgid "Use all interfaces"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:77
+msgid "Interfaces"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:80
+msgid "Adds one -i argument for each interface."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:82
+msgid "Process inbound traffic"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:86
+msgid "Process outbound traffic"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:90
+msgid "Process IPv4 traffic"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:94
+msgid "Process IPv6 traffic"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:98
+msgid "NFQUEUE number"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:102
+msgid "Duplicate generated packets"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:105
+msgid "Maps to -r. Valid values in FakeHTTP are 1 to 10."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:107
+msgid "Generated packet TTL"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:110
+msgid "Maps to -t. Valid values in FakeHTTP are 1 to 255."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:112
+msgid "Firewall mark"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:114
+msgid "Maps to -m. Decimal and hexadecimal values are both accepted."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:116
+msgid "Firewall mask"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:118
+msgid "Optional -x override. Leave empty to use FakeHTTP defaults."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:120
+msgid "Dynamic TTL percentage"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:124
+msgid "Maps to -y. Set 0 to disable."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:126
+msgid "Log file"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:128
+msgid "Optional -w path. Leave empty to log through procd."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:130
+msgid "Silent mode"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:133
+msgid "Skip firewall rule management"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:135
+msgid "Maps to -f. Use this only if firewall rules are managed elsewhere."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:137
+msgid "Disable hop count estimation"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:140
+msgid "Use iptables instead of nft"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:142
+msgid "Maps to -z. Requires iptables and ip6tables tooling to be installed."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:35
+msgid "Running"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/fakehttp/overview.js:35
+msgid "Not running"
+msgstr ""

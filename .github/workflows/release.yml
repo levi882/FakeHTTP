@@ -94,11 +94,8 @@ jobs:
             openwrt_found=1
 
             base="$(basename "$file")"
-            target="../release/$base"
-
-            if [ -e "$target" ]; then
-              target="../release/$(basename "$(dirname "$file")")-$base"
-            fi
+            parent="$(basename "$(dirname "$file")")"
+            target="../release/${parent}-${base}"
 
             cp -f "$file" "$target"
           done

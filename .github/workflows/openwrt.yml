@@ -165,11 +165,7 @@ jobs:
           for file in "${files[@]}"; do
               base="$(basename "$file")"
               parent="$(basename "$(dirname "$file")")"
-              target="release-dist/$base"
-
-              if [ -e "$target" ]; then
-                  target="release-dist/${parent}-${base}"
-              fi
+              target="release-dist/${parent}-${base}"
 
               cp -f "$file" "$target"
           done

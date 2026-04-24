@@ -104,6 +104,7 @@ start_service() {
 
 	procd_open_instance
 	procd_set_param command "$PROG"
+	procd_set_param env PATH=/usr/sbin:/usr/bin:/sbin:/bin
 
 	config_list_foreach "$SECTION" http_host append_http_host
 	config_list_foreach "$SECTION" https_host append_https_host
@@ -155,4 +156,9 @@ start_service() {
 
 service_triggers() {
 	procd_add_reload_trigger "$CONFIG"
+}
+
+reload_service() {
+	stop
+	start
 }

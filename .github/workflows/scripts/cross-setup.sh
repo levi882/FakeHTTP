@@ -11,6 +11,7 @@ set -eux
 CROSS_BASE="$CROSS_DIR/$CROSS_TRIPLET"
 CROSS_SRC="$CROSS_BASE/src"
 CROSS_USR="$CROSS_BASE/$CROSS_TRIPLET/sysroot/usr"
+CACHE_MARKER="$CROSS_BASE/.fakehttp-toolchain-ready"
 PATH="$CROSS_BASE/bin:$PATH"
 PKG_CONFIG_PATH="$CROSS_DIR/$CROSS_TRIPLET/$CROSS_TRIPLET/sysroot/usr/lib/pkgconfig"
 export PATH PKG_CONFIG_PATH
@@ -29,6 +30,17 @@ libnetfilter_queue_name=libnetfilter_queue-1.0.5
 libnetfilter_queue_tar=$libnetfilter_queue_name.tar.bz2
 libnetfilter_queue_sha256=f9ff3c11305d6e03d81405957bdc11aea18e0d315c3e3f48da53a24ba251b9f5
 libnetfilter_queue_url="https://www.netfilter.org/projects/libnetfilter_queue/files/$libnetfilter_queue_tar"
+cache_version="$CROSS_TOOLCHAIN_SHA256:$libmnl_sha256:$libnfnetlink_sha256:$libnetfilter_queue_sha256"
+
+if [ -x "$CROSS_BASE/bin/$CROSS_TRIPLET-gcc" ] &&
+    [ -f "$CROSS_USR/lib/pkgconfig/libmnl.pc" ] &&
+    [ -f "$CROSS_USR/lib/pkgconfig/libnfnetlink.pc" ] &&
+    [ -f "$CROSS_USR/lib/pkgconfig/libnetfilter_queue.pc" ] &&
+    [ -f "$CACHE_MARKER" ] &&
+    [ "$(cat "$CACHE_MARKER")" = "$cache_version" ]; then
+    : "Using cached toolchain and dependencies."
+    exit 0
+fi
 
 
 : "Downloading toolchain..."
@@ -66,7 +78,7 @@ cd "$libmnl_name/builddir"
     --enable-static \
     --host="$CROSS_TRIPLET" \
     --prefix="$CROSS_USR"
-make
+make -j "$(nproc)"
 make install
 
 
@@ -80,7 +92,7 @@ cd "$libnfnetlink_name/builddir"
     --enable-static \
     --host="$CROSS_TRIPLET" \
     --prefix="$CROSS_USR"
-make
+make -j "$(nproc)"
 make install
 
 
@@ -94,5 +106,7 @@ cd "$libnetfilter_queue_name/builddir"
     --enable-static \
     --host="$CROSS_TRIPLET" \
     --prefix="$CROSS_USR"
-make
+make -j "$(nproc)"
 make install
+
+printf '%s\n' "$cache_version" > "$CACHE_MARKER"

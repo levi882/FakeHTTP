@@ -113,11 +113,18 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+      - name: Prepare toolchain cache directory
+        run: |
+          sudo mkdir -m 777 -p "${{ env.cross_dir }}"
+      - name: Cache toolchain for ${{ matrix.name }}
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.cross_dir }}/${{ matrix.triplet }}
+          key: musl-cross-${{ matrix.triplet }}-${{ matrix.sha256 }}-${{ hashFiles('.github/workflows/scripts/cross-setup.sh') }}
       - name: Set up toolchain for ${{ matrix.name }}
         run: |
           CROSS_TOOLCHAIN_URL="https://github.com/cross-tools/musl-cross/releases/download/20250520/${{ matrix.triplet }}.tar.xz"
 
-          sudo mkdir -m 777 -p "${{ env.cross_dir }}"
           env \
               CROSS_TRIPLET="${{ matrix.triplet }}" \
               CROSS_TOOLCHAIN_URL="$CROSS_TOOLCHAIN_URL" \
